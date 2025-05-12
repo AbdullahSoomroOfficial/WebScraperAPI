@@ -15,7 +15,7 @@ def clean_text(text):
 
 
 def scrape_with_playwright(url):
-    print("➤➤➤" + " Starting to scrape the playwright")
+    print("➤➤➤" + " Using playwright to scrape")
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
