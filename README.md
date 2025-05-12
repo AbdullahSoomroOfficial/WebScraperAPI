@@ -16,7 +16,7 @@ A Django-based web scraping application that extracts information from websites.
 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/WebScraperAPI.git
+git clone https://github.com/AbdullahSoomroOfficial/WebScraperAPI
 cd WebScraperAPI
 ```
 
