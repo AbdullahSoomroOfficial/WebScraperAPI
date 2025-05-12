@@ -38,7 +38,7 @@
       .section-title {
         color: #1a73e8;
         margin-bottom: 1rem;
-        font-size: 1.6rem;
+        font-size: 1.2rem;
       }
 
       .text-content {
@@ -49,7 +49,6 @@
       .links-list {
         list-style: none;
         padding: 0;
-        overflow: auto;
       }
 
       .links-list li {
@@ -92,15 +91,32 @@
       .back-button:hover {
         background-color: #1557b0;
       }
+
+      .ai-summary {
+        background-color: #e8f0fe;
+        border-radius: 6px;
+        padding: 1.5rem;
+      }
+
+      .ai-summary p {
+        margin: 0;
+        font-size: 1.2rem;
+      }
     </style>
   </head>
   <body>
     <div class="container">
+      <a href="{% url 'index' %}" class="back-button">Back to Scraper</a>
       <h1>Scraping Results</h1>
 
       {% if results.error %}
       <div class="error-message">{{ results.error }}</div>
-      {% else %} {% if results.page_title %}
+      {% else %} {% if results.ai_summary %}
+      <div class="ai-summary">
+        <div class="section-title">AI Generated Summary</div>
+        <p>{{ results.ai_summary }}</p>
+      </div>
+      {% endif %} {% if results.page_title %}
       <div class="section">
         <div class="section-title">Page Title</div>
         <div>{{ results.page_title }}</div>
@@ -131,31 +147,16 @@
         </div>
         <ul class="links-list">
           {% for link in results.links %}
-          <li>
-            <a href="{{ link }}" target="_blank">{{ link }}</a>
-          </li>
+          <li><a href="{{ link }}" target="_blank">{{ link }}</a></li>
           {% endfor %}
         </ul>
-      </div>
-      {% endif %} {% if results.inline_css %}
-      <div class="section">
-        <div class="section-title">Inline CSS</div>
-        <div class="text-content">
-          {% if results.inline_css|length > 0 %}
-          <pre>{{ results.inline_css|join:"\n\n" }}</pre>
-          {% else %}
-          <pre>No inline CSS found</pre>
-          {% endif %}
-        </div>
       </div>
       {% endif %} {% if results.external_css %}
       <div class="section">
         <div class="section-title">External CSS Files</div>
         <ul class="links-list">
           {% for css in results.external_css %}
-          <li>
-            <a href="{{ css }}" target="_blank">{{ css }}</a>
-          </li>
+          <li><a href="{{ css }}" target="_blank">{{ css }}</a></li>
           {% endfor %}
         </ul>
       </div>
