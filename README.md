@@ -57,3 +57,6 @@ python manage.py runserver
 - BeautifulSoup4
 - Requests
 - HTML5/CSS3
+- Ollama
+- llama3
+- Playwright
