@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scraping Results</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 2rem;
+        background-color: #90bdff;
+        color: #333;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #1a73e8;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .section {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background-color: #f8f9fa;
+        border-radius: 6px;
+      }
+
+      .section-title {
+        color: #1a73e8;
+        margin-bottom: 1rem;
+        font-size: 1.6rem;
+      }
+
+      .text-content {
+        line-height: 1.6;
+        white-space: pre-wrap;
+      }
+
+      .links-list {
+        list-style: none;
+        padding: 0;
+        overflow: auto;
+      }
+
+      .links-list li {
+        margin-bottom: 0.5rem;
+      }
+
+      .links-list a {
+        color: #1a73e8;
+        text-decoration: none;
+        display: inline-block;
+        padding: 0.5rem;
+        background-color: #e8f0fe;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+      }
+
+      .links-list a:hover {
+        background-color: #d2e3fc;
+      }
+
+      .error-message {
+        color: #dc3545;
+        padding: 1rem;
+        background-color: #ffe6e6;
+        border-radius: 4px;
+      }
+
+      .back-button {
+        display: block;
+        text-align: center;
+        margin-top: 2rem;
+        padding: 0.75rem 1.5rem;
+        background-color: #1a73e8;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+      }
+
+      .back-button:hover {
+        background-color: #1557b0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Scraping Results</h1>
+
+      {% if results.error %}
+      <div class="error-message">{{ results.error }}</div>
+      {% else %} {% if results.page_title %}
+      <div class="section">
+        <div class="section-title">Page Title</div>
+        <div>{{ results.page_title }}</div>
+      </div>
+      {% endif %} {% if results.description %}
+      <div class="section">
+        <div class="section-title">Meta Description</div>
+        <div>{{ results.description }}</div>
+      </div>
+      {% endif %} {% if results.headings %}
+      <div class="section">
+        <div class="section-title">Headings (H1)</div>
+        <ul class="links-list">
+          {% for heading in results.headings %}
+          <li>{{ heading }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %} {% if results.text_snippet %}
+      <div class="section">
+        <div class="section-title">Text Content Preview</div>
+        <div class="text-content">{{ results.text_snippet }}</div>
+      </div>
+      {% endif %} {% if results.links %}
+      <div class="section">
+        <div class="section-title">
+          Found Links ({{ results.links|length }})
+        </div>
+        <ul class="links-list">
+          {% for link in results.links %}
+          <li>
+            <a href="{{ link }}" target="_blank">{{ link }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %} {% if results.inline_css %}
+      <div class="section">
+        <div class="section-title">Inline CSS</div>
+        <div class="text-content">
+          {% if results.inline_css|length > 0 %}
+          <pre>{{ results.inline_css|join:"\n\n" }}</pre>
+          {% else %}
+          <pre>No inline CSS found</pre>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %} {% if results.external_css %}
+      <div class="section">
+        <div class="section-title">External CSS Files</div>
+        <ul class="links-list">
+          {% for css in results.external_css %}
+          <li>
+            <a href="{{ css }}" target="_blank">{{ css }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %} {% endif %}
+
+      <a href="{% url 'index' %}" class="back-button">Back to Scraper</a>
+    </div>
+  </body>
+</html>
